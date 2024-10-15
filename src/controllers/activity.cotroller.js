@@ -8,10 +8,10 @@ export const createActivity = async (req, res) => {
       .json({ message: 'Actividad registrada exitosamente' });
   } catch (e) {
     console.log(e);
-    return {
+    res.status(500).json({
       error: 'Error al registrar Actividad',
       message: e.error || e.message,
-    };
+    });
   }
 };
 
@@ -24,6 +24,7 @@ export const getActivityById = async (req, res) => {
   const data = await Activity.findByPk(req.params.id);
   if (!data) {
     res.status(404).json({ error: 'Actividad no encontrada' });
+    return
   }
   res.json(data);
 };
@@ -33,6 +34,7 @@ export const updateActivity = async (req, res) => {
   const data = await Activity.findByPk(req.params.id);
   if (!data) {
     res.status(404).json({ error: 'Actividad no encontrada' });
+    return
   }
   await data.update(body);
   res.json({ message: 'Actividad actualizada exitosamente' });
@@ -42,6 +44,7 @@ export const deleteActivity = async (req, res) => {
   const data = await Activity.findByPk(req.params.id);
   if (!data) {
     res.status(404).json({ error: 'Actividad no encontrada' });
+    return
   }
   await data.destroy();
   res.json({ message: 'Actividad eliminada exitosamente' });
