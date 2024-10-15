@@ -15,6 +15,9 @@ const User = database.define('User', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  psicoEmail: {
+    type: DataTypes.STRING,
+  },
 });
 
 export default User;
