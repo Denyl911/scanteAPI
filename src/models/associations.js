@@ -5,7 +5,7 @@ import User from "./user.model";
 
 User.hasMany(Session)
 Session.belongsTo(User)
-Session.hasMany(Activity)
-Activity.belongsTo(Session)
+User.hasMany(Activity)
+Activity.belongsTo(User)
 User.hasMany(Emotion)
 Emotion.belongsTo(User)
