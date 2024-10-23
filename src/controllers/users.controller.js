@@ -90,7 +90,7 @@ export const login = async (req, res) => {
 
 export const saveEmotion = async (req, res) => {
   const data = await Emotion.create(req.body);
-  res.json({ message: 'Success' });
+  res.json(data);
 };
 
 export const getAllUserEmotions = async (req, res) => {
