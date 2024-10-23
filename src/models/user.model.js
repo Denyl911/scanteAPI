@@ -18,6 +18,10 @@ const User = database.define('User', {
   psicoEmail: {
     type: DataTypes.STRING,
   },
+  autoReport: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: true
+  },
 });
 
 export default User;

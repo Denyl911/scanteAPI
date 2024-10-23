@@ -1,3 +1,4 @@
+import Emotion from '../models/emotion.model';
 import User from '../models/user.model';
 import jwt from 'jsonwebtoken';
 
@@ -38,7 +39,7 @@ export const getUserById = async (req, res) => {
   });
   if (!user) {
     res.status(404).json({ error: 'Usuario no encontrado' });
-    return
+    return;
   }
   res.json(user);
 };
@@ -51,7 +52,7 @@ export const updateUser = async (req, res) => {
   const user = await User.findByPk(req.params.id);
   if (!user) {
     res.status(404).json({ error: 'Usuario no encontrado' });
-    return
+    return;
   }
   await user.update(body);
   res.json({ message: 'Usuario actualizado exitosamente' });
@@ -61,7 +62,7 @@ export const deleteUser = async (req, res) => {
   const user = await User.findByPk(req.params.id);
   if (!user) {
     res.status(404).json({ error: 'Usuario no encontrado' });
-    return
+    return;
   }
   await user.destroy();
   res.json({ message: 'Usuario eliminado exitosamente' });
@@ -72,12 +73,12 @@ export const login = async (req, res) => {
   const user = await User.findOne({ where: { email } });
   if (!user) {
     res.status(404).json({ error: 'Usuario no encontrado' });
-    return
+    return;
   }
   const isValidPassword = await Bun.password.verify(password, user.password);
   if (!isValidPassword) {
     res.status(401).json({ error: 'Contraseña incorrecta' });
-    return
+    return;
   }
   const token = jwt.sign(
     { id: user.id, email: user.email },
@@ -85,4 +86,28 @@ export const login = async (req, res) => {
     { expiresIn: '30d' }
   );
   res.json({ user, token });
+};
+
+export const saveEmotion = async (req, res) => {
+  const data = await Emotion.create(req.body);
+  res.json({ message: 'Success' });
+};
+
+export const getAllUserEmotions = async (req, res) => {
+  const data = await Emotion.findAll({
+    where: {
+      UserId: req.params.id,
+    },
+  });
+  res.json(data);
+};
+
+export const deleteEmotion = async (req, res) => {
+  const data = await Emotion.findByPk(req.params.id);
+  if (!data) {
+    res.status(404).json({ error: 'Emocion no encontrada' });
+    return;
+  }
+  await data.destroy();
+  res.json({ message: 'Emocion eliminada exitosamente' });
 };
